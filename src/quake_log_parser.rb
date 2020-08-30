@@ -13,6 +13,10 @@ class QuakeLogParser
     line.match?(REGEX_KILL)
   end
 
+  def extract_kill_info(line)
+    line.match(REGEX_KILL)
+  end
+
   def match_item_line(line)
     line.match?(REGEX_ITEM)
   end
