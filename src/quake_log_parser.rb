@@ -15,7 +15,7 @@ class QuakeLogParser
   end
 
   def extract_kill_info(line)
-    KillInfo.new(line.match(REGEX_KILL))
+    KillInfo.from_log(line.match(REGEX_KILL))
   end
 
   def match_item_line(line)
