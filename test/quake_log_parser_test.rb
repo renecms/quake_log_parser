@@ -23,14 +23,13 @@ class QuakeLogParserTest < Minitest::Test
 
   def test_kill_extraction
     extracted_info = QuakeLogParser.new.extract_kill_info('20:54 Kill: 1022 2 22: <world> killed Isgalamido by MOD_TRIGGER_HURT')
-    assert_equal '20', extracted_info[:Hour]
-    assert_equal '54', extracted_info[:Minutes]
-    assert_equal '1022', extracted_info[:KillerId]
-    assert_equal '2', extracted_info[:DeadId]
-    assert_equal '22', extracted_info[:CoD_Id]
-    assert_equal '<world>', extracted_info[:Killer]
-    assert_equal 'Isgalamido', extracted_info[:Dead]
-    assert_equal 'MOD_TRIGGER_HURT', extracted_info[:CoD]
+    assert_equal '20:54', extracted_info.time
+    assert_equal '1022', extracted_info.killer_id
+    assert_equal '2', extracted_info.dead_id
+    assert_equal '22', extracted_info.cod_id
+    assert_equal '<world>', extracted_info.killer
+    assert_equal 'Isgalamido', extracted_info.dead
+    assert_equal 'MOD_TRIGGER_HURT', extracted_info.cod
   end
 
 end
