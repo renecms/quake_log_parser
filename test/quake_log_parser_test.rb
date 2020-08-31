@@ -39,8 +39,15 @@ class QuakeLogParserTest < Minitest::Test
   end
 
   def test_parse_file
-    report = QuakeLogParser.new.parse_file('qgames.log')
-    puts JSON.pretty_generate(report)
+    parser = QuakeLogParser.new
+    parser.parse_file('qgames.log')
+    puts JSON.pretty_generate(parser.log_report)
+  end
+
+  def test_means_of_death
+    parser = QuakeLogParser.new
+    parser.parse_file('qgames.log')
+    puts JSON.pretty_generate(parser.means_of_death_report)
   end
 
 end

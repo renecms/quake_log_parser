@@ -4,25 +4,28 @@ require_relative 'kill_info'
 require 'json'
 
 class Game
-  attr_accessor :players
+  attr_accessor :players, :deaths_by_type
 
   def initialize
     @players = {}
+    @deaths_by_type = {}
   end
 
-  def add_player(player_name)
-    @players[player_name] = 0
+  def update_death(death_type)
+    @deaths_by_type[death_type] = 0 unless @deaths_by_type.key?(death_type)
+    @deaths_by_type[death_type] += 1
   end
 
   def update_kill_count(kill_info)
     if kill_info.killer == '<world>'
-      add_player(kill_info.dead) unless @players.key?(kill_info.dead)
+      @players[kill_info.dead] = 0 unless @players.key?(kill_info.dead)
       @players[kill_info.dead] -= 1
     else
-      add_player(kill_info.killer) unless @players.key?(kill_info.killer)
-      add_player(kill_info.dead) unless @players.key?(kill_info.dead)
+      @players[kill_info.killer] = 0 unless @players.key?(kill_info.killer)
+      @players[kill_info.dead] = 0 unless @players.key?(kill_info.dead)
       @players[kill_info.killer] += 1
     end
+    update_death(kill_info.cod)
   end
 
   def game_report
@@ -31,11 +34,5 @@ class Game
         'players' => @players.keys,
         'kills' => @players
     }
-  end
-
-  def player_info
-    hash = {}
-    @players.map { |k, v| hash[k] = v.kill_count }
-    hash
   end
 end
