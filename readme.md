@@ -18,13 +18,34 @@ Game:
           "Assasinu Credi"
         ],
         "kills": {
-          "Oootsimo": 22,
-          "Assasinu Credi": 19,
-          "Zeh": 19,
-          "Isgalamido": 17,
-          "Dono da Bola": 14,
-          "Mal": 6
-        }
+          "Oootsimo": {
+            "kills": "22",
+            "deaths": "18"
+          },
+          "Assasinu Credi": {
+            "kills": "19",
+            "deaths": "30"
+          },
+          "Zeh": {
+            "kills": "19",
+            "deaths": "15"
+          },
+          "Isgalamido": {
+            "kills": "17",
+            "deaths": "19"
+          },
+          "Dono da Bola": {
+            "kills": "14",
+            "deaths": "19"
+          },
+          "Mal": {
+            "kills": "6",
+            "deaths": "30"
+          }
+        },
+        "most_kills": "Oootsimo",
+        "most_deaths": "Mal"
+      }
     }
 }
 ```
