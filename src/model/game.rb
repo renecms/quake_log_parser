@@ -34,7 +34,7 @@ class Game
     {
         'total_kill' => @total_kills,
         'players' => @players.keys,
-        'kills' => @players
+        'kills' => @players.sort_by { |_k, v| v }.reverse.to_h
     }
   end
 end
