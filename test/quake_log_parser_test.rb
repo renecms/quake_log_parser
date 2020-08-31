@@ -3,6 +3,7 @@
 require_relative '../src/quake_log_parser'
 require 'minitest/autorun'
 require 'test_helper'
+require 'json'
 
 class QuakeLogParserTest < Minitest::Test
   def setup
@@ -38,7 +39,8 @@ class QuakeLogParserTest < Minitest::Test
   end
 
   def test_parse_file
-    QuakeLogParser.new.parse_file('qgames.log')
+    report = QuakeLogParser.new.parse_file('qgames.log')
+    puts JSON.pretty_generate(report)
   end
 
 end

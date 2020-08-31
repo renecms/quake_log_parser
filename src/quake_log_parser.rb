@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 require_relative 'model/kill_info'
 require_relative 'model/game'
+require 'json'
 
 class QuakeLogParser
   REGEX_KILL = /(?<Time>\d{1,2}:\d{1,2}) Kill: (?<KillerId>\d*) (?<DeadId>\d*) (?<CoD_Id>\d*): (?<Killer>\S*) killed (?<Dead>\S*) by (?<CoD>\S*)/.freeze
@@ -24,7 +25,7 @@ class QuakeLogParser
       current_game.update_kill_count(extract_kill_info(line)) if match_kill_line(line)
       @games.append(current_game) if match_shutdown_game(line)
     end
-    @games.each { |game| puts game.game_report }
+    @games.collect.with_index { |item, index| ['game_' + index.to_s, item.game_report] }.flatten
   end
 
   def match_kill_line(line)
@@ -46,6 +47,4 @@ class QuakeLogParser
   def match_shutdown_game(line)
     line.match?(REGEX_SHUTDOWN_GAME)
   end
-
-
 end
