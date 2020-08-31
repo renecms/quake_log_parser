@@ -34,7 +34,11 @@ class QuakeLogParser
   def parse_file(path)
     current_game = Game.new
     File.readlines(path).each do |line|
-      current_game = Game.new if match_init_game(line)
+      if match_init_game(line)
+        @games.append(current_game) unless current_game.players.empty?
+        current_game = Game.new
+      end
+
       current_game.update_kill_count(extract_kill_info(line)) if match_kill_line(line)
       @games.append(current_game) if match_shutdown_game(line)
     end
