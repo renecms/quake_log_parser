@@ -5,6 +5,7 @@ require 'json'
 
 class Game
   attr_accessor :players, :deaths_by_type
+  Player = Struct.new(:kill, :death)
 
   def initialize
     @players = {}
@@ -19,14 +20,15 @@ class Game
 
   def update_kill_count(kill_info)
     if kill_info.killer == '<world>'
-      @players[kill_info.dead] = 0 unless @players.key?(kill_info.dead)
-      @players[kill_info.dead] -= 1
+      @players[kill_info.dead] = Player.new(0, 0) unless @players.key?(kill_info.dead)
+      @players[kill_info.dead].kill -= 1
     else
-      @players[kill_info.killer] = 0 unless @players.key?(kill_info.killer)
-      @players[kill_info.dead] = 0 unless @players.key?(kill_info.dead)
-      @players[kill_info.killer] += 1
+      @players[kill_info.killer] = Player.new(0, 0) unless @players.key?(kill_info.killer)
+      @players[kill_info.dead] = Player.new(0, 0) unless @players.key?(kill_info.dead)
+      @players[kill_info.killer].kill += 1
     end
     @total_kills += 1
+    @players[kill_info.dead].death += 1
     update_death(kill_info.cod)
   end
 
@@ -34,7 +36,14 @@ class Game
     {
         'total_kill' => @total_kills,
         'players' => @players.keys,
-        'kills' => @players.sort_by { |_k, v| v }.reverse.to_h
+        'kills' => @players
+                       .sort_by { |_k, v| v.kill }
+                       .reverse
+                       .to_h
+                       .map { |k, v| [k, {'kills' => v.kill.to_s, 'deaths' => v.death.to_s}] }
+                       .to_h,
+        'most_kills' => @players.key(@players.values.max_by(&:kill)),
+        'most_deaths' => @players.key(@players.values.max_by(&:death))
     }
   end
 end
