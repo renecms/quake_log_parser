@@ -9,6 +9,7 @@ class Game
   def initialize
     @players = {}
     @deaths_by_type = {}
+    @total_kills = 0
   end
 
   def update_death(death_type)
@@ -25,12 +26,13 @@ class Game
       @players[kill_info.dead] = 0 unless @players.key?(kill_info.dead)
       @players[kill_info.killer] += 1
     end
+    @total_kills += 1
     update_death(kill_info.cod)
   end
 
   def game_report
     {
-        'total_kill' => @players.values.reduce(0) { |sum, x| sum + x },
+        'total_kill' => @total_kills,
         'players' => @players.keys,
         'kills' => @players
     }
