@@ -1,6 +1,5 @@
 require_relative '../src/model/game'
 require_relative '../src/model/kill_info'
-require_relative '../src/model/player'
 require 'minitest/autorun'
 require 'test_helper'
 
