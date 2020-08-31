@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
 require_relative 'kill_info'
 require_relative 'player'
+require 'json'
 
 class Game
   def initialize(game_start_time)
@@ -20,7 +23,20 @@ class Game
       add_player(kill_info.dead, kill_info.dead_id) unless @players.key?(kill_info.dead)
       @players[kill_info.killer].add_kill
     end
+  end
 
+  def game_report
+    {
+        'total_kill' => @players.values.reduce(0) { |sum, x| sum + x.kill_count },
+        'players' => @players.keys,
+        'kills' => player_info
+    }
+  end
+
+  def player_info
+    hash = {}
+    @players.map { |k, v| hash[k] = v.kill_count }
+    hash
   end
 
   attr_accessor :game_start_time, :game_end_time, :players
