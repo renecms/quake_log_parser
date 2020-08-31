@@ -21,14 +21,14 @@ class QuakeLogParser
 
   def log_report
     @games.collect.with_index do |item, index|
-      ['game_' + index.to_s, item.game_report]
-    end.flatten
+      ['game_' + index.to_s => item.game_report]
+    end.flatten.inject(&:merge)
   end
 
   def means_of_death_report
     @games.collect.with_index do |item, index|
-      ['game_' + index.to_s, item.deaths_by_type.sort_by { |_k, v| v }.reverse.to_h]
-    end.flatten
+      ['game_' + index.to_s => item.deaths_by_type.sort_by { |_k, v| v }.reverse.to_h]
+    end.flatten.inject(&:merge)
   end
 
   def parse_file(path)
