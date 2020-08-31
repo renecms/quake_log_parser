@@ -5,8 +5,9 @@ require_relative 'player'
 require 'json'
 
 class Game
-  def initialize(game_start_time)
-    @game_start_time = game_start_time
+  attr_accessor :players
+
+  def initialize
     @players = {}
   end
 
@@ -38,6 +39,4 @@ class Game
     @players.map { |k, v| hash[k] = v.kill_count }
     hash
   end
-
-  attr_accessor :game_start_time, :game_end_time, :players
 end

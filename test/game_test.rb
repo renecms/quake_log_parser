@@ -6,7 +6,7 @@ require 'test_helper'
 
 class GameTest < Minitest::Test
   def test_game
-    game = Game.new('17:12')
+    game = Game.new
 
     game.update_kill_count(kill_info('<world>', 'thor'))
     assert_equal(-1, game.players['thor'].kill_count)
@@ -25,7 +25,7 @@ class GameTest < Minitest::Test
   end
 
   def test_game_report
-    game = Game.new('17:12')
+    game = Game.new
     game.update_kill_count(kill_info('<world>', 'thor'))
     game.update_kill_count(kill_info('thor', 'thanos'))
     game.update_kill_count(kill_info('thor', 'thanos'))
